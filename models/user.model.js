@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema({
     step: {
         type: Number,
         default: 0
+    },
+    currentOrderId: {
+        type: mongoose.Schema.Types.ObjectId || null,
+        ref: 'Orders',
+        default: null
     }
 },{ timestamps: true });
 
