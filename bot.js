@@ -14,6 +14,7 @@ const CONSTANTS = require("./constants");
 const random = require("./helpers/random");
 const ordersModel = require("./models/orders.model");
 const constantsModel = require("./models/constants.model");
+const collectionModel = require("./models/collection.model");
 require("number-brm");
 
 const PORT = process.env.PORT || 5000;
@@ -29,7 +30,18 @@ app.get("/api/user/:id", async (req, res) => {
     res.status(500).json({ error, message: "Server error" });
   }
 });
-app.get("/api/price", async (req, res) => {
+app.get("/api/population", async (_, res) => {
+  try {
+    const collections = await collectionModel.find({});
+    res
+      .status(200)
+      .json({ message: "Populations", data: { populations: collections } });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error, message: "Server error" });
+  }
+});
+app.get("/api/price", async (_, res) => {
   try {
     const constants = await constantsModel.findOne({});
     res.status(200).json({ price: constants.price });
@@ -37,8 +49,73 @@ app.get("/api/price", async (req, res) => {
     console.log(error);
     res.status(500).json({ error, message: "Server error" });
   }
-})
+});
 app.post("/api/web_app_data", async (req, res) => {
+  try {
+    const { telegramId, orderDetails, pubgId, full_name } = req.body;
+    const user = await userModel.findOne({ telegramId: telegramId });
+
+    let order_message = `<b>‼️ Yanggi buyurtma ‼️</b>\n\n${orderDetails.items
+      .map((item) => {
+        return `<b>${item.product.uc.brm()} UC - ${item.product.price.brm()} SO'M</b>`;
+      })
+      .join("\n\n")}\n\n<b>Foydalanuvchi: </b>${full_name}\n<b>${
+      CONSTANTS.uz.total
+    }: </b>${orderDetails.total.brm()}`;
+    const create_order = await ordersModel.create({
+      user_id: user._id,
+      message: order_message,
+    });
+    if (!create_order) throw new Error("Buyurtma yaratishda xatolik");
+    const updated_user = await userModel.findOneAndUpdate(
+      {
+        telegramId: telegramId,
+      },
+      {
+        step: 1,
+        currentOrderId: create_order._id,
+      },
+      { new: true }
+    );
+    if (updated_user) {
+      let message =
+        orderDetails.items
+          .map((item) => {
+            return `<b>UC ${item.product.uc.brm()} - ${item.product.price.brm()} SO'M</b>`;
+          })
+          .join("\n\n") +
+        `\n\n<b>${
+          CONSTANTS[user.lang].total
+        }: </b>${orderDetails.total.brm()} SO'M\n\n<b>${
+          CONSTANTS[user.lang].pubg_id
+        }: </b>${pubgId}`;
+      await bot.sendMessage(telegramId, message, {
+        parse_mode: "HTML",
+      });
+
+      const CARDS = await cardsModel.find({});
+
+      const random_card = random(CARDS);
+
+      let message_payment = `<b>${
+        CONSTANTS[user.lang].payment_details
+      }</b>\n\n<b>Karta raqami: </b><pre>${
+        random_card.number
+      }</pre>\nKarta nomi: <pre>${random_card.name}</pre>\n\n<b>${
+        CONSTANTS[user.lang].total
+      }: </b>${orderDetails.total.brm()}\n\n<b>Iltimos shu kartaga belgilangan miqdorda pulni o'tkazib botga chekni yuboring.</b>`;
+      await bot.sendMessage(telegramId, message_payment, {
+        parse_mode: "HTML",
+      });
+    }
+
+    res.status(200).json({ message: "Success" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error, message: "Server error" });
+  }
+});
+app.post("/api/web_app_data/population", async (req, res) => {
   try {
     const { telegramId, orderDetails, pubgId, full_name } = req.body;
     const user = await userModel.findOne({ telegramId: telegramId });
@@ -69,7 +146,7 @@ app.post("/api/web_app_data", async (req, res) => {
       let message =
         orderDetails.items
           .map((item) => {
-            return `<b>UC ${item.product.uc.brm()} - ${item.product.price.brm()} SO'M</b>`;
+            return `<b>${item.product.uc.brm()} ПП - ${item.product.price.brm()} SO'M</b>`;
           })
           .join("\n\n") +
         `\n\n<b>${
@@ -153,8 +230,8 @@ module.exports = async function startBot() {
       const lang = ctx.user.lang || "uz";
 
       if (data.includes("confirmpayment_")) {
-        const chat_id = data.split("_")[1]
-        await bot.sendMessage(chat_id, "buyurtma tasdiqlandi ✅")
+        const chat_id = data.split("_")[1];
+        await bot.sendMessage(chat_id, "buyurtma tasdiqlandi ✅");
         return await bot.editMessageCaption(
           `${caption}\n\n<b>Tasdiqlandi ✅</b>`,
           {
@@ -165,8 +242,8 @@ module.exports = async function startBot() {
         );
       }
       if (data.includes("cancelpayment_")) {
-        const chat_id = data.split("_")[1]
-        await bot.sendMessage(chat_id, "buyurtma bekor qilindi ❌")
+        const chat_id = data.split("_")[1];
+        await bot.sendMessage(chat_id, "buyurtma bekor qilindi ❌");
         return await bot.editMessageCaption(
           `${caption}\n\n<b>Bekor qilindi ❌</b>`,
           {
@@ -203,75 +280,105 @@ module.exports = async function startBot() {
   ]);
   bot.on("photo", async (ctx) => {
     const chat_id = ctx.from.id;
-    const first_name = ctx.from.first_name;
-    const last_name = ctx.from.last_name;
-    const full_name = first_name + (last_name ? " " + last_name : "");
-    const username = ctx.from.username;
     const user = await User.findOne({ telegramId: chat_id });
-    const photo = ctx.photo;
-    const document = ctx.document;
 
-    console.log(user.step)
+    if (!user) return;
+
+    const photo = ctx.photo;
+
+    console.log(user.step);
+
     if (user.step === 1) {
-      if (photo || document) {
-        // Step ni 0 ga o'zgartiramiz
-        const updated_step = await userModel.findOneAndUpdate(
-          { telegramId: chat_id },
-          { step: 0 },
-          { new: true }
-        );
-    
-        console.log(updated_step.step); // step o'zgarganligini tekshiramiz
-    
-        if (updated_step) {
-          let message = "";
-          const order = await ordersModel.findOne({
-            _id: user.currentOrderId,
-          });
-          message = order.message;
-          const inline_keyboard = [
-            [
-              { text: "✅", callback_data: "confirmpayment_" + chat_id },
-              { text: "❌", callback_data: "cancelpayment_" + chat_id },
-            ],
-          ];
-    
-          await bot.sendMessage(
-            chat_id,
-            "<b>Buyurtma muvaffaqqiyatli, moderatorlar tasdiqlagan Uc hisobingizga o'tkazib beriladi</b>",
-            {
-              parse_mode: "HTML",
-            }
-          );
-    
-          if (photo) {
-            return await bot.sendPhoto(
-              CONSTANTS.group_id,
-              photo[photo.length - 1].file_id,
-              {
-                caption: message,
-                parse_mode: "HTML",
-                reply_markup: { inline_keyboard },
-              }
-            );
-          } else if (document) {
-            return await bot.sendDocument(
-              CONSTANTS.group_id,
-              document.file_id,
-              {
-                caption: message,
-                parse_mode: "HTML",
-                reply_markup: { inline_keyboard },
-              }
-            );
+      // Immediately update step to prevent duplicate processing
+      const updatedUser = await userModel.findOneAndUpdate(
+        { telegramId: chat_id, step: 1 }, // Condition: Only update if step is still 1
+        { step: 0 }, // Change step to 0
+        { new: true }
+      );
+
+      if (!updatedUser) return; // If already updated, do nothing
+
+      console.log(updatedUser.step); // Confirm step has changed
+
+      let message = "";
+      const order = await ordersModel.findOne({ _id: user.currentOrderId });
+      if (order) message = order.message;
+
+      const inline_keyboard = [
+        [
+          { text: "✅", callback_data: "confirmpayment_" + chat_id },
+          { text: "❌", callback_data: "cancelpayment_" + chat_id },
+        ],
+      ];
+
+      await bot.sendMessage(
+        chat_id,
+        "<b>Order successful. Moderators will verify, and UC will be credited to your account.</b>",
+        { parse_mode: "HTML" }
+      );
+
+      if (photo) {
+        return await bot.sendPhoto(
+          CONSTANTS.group_id,
+          photo[photo.length - 1].file_id,
+          {
+            caption: message,
+            parse_mode: "HTML",
+            reply_markup: { inline_keyboard },
           }
-        } else {
-          throw new Error(null);
-        }
+        );
       }
     }
-    
   });
+  bot.on("document", async (ctx) => {
+    const chat_id = ctx.from.id;
+    const user = await User.findOne({ telegramId: chat_id });
+
+    if (!user) return;
+
+    const document = ctx.document;
+
+    console.log(user.step);
+
+    if (user.step === 1) {
+      // Immediately update step to prevent duplicate processing
+      const updatedUser = await userModel.findOneAndUpdate(
+        { telegramId: chat_id, step: 1 }, // Condition: Only update if step is still 1
+        { step: 0 }, // Change step to 0
+        { new: true }
+      );
+
+      if (!updatedUser) return; // If already updated, do nothing
+
+      console.log(updatedUser.step); // Confirm step has changed
+
+      let message = "";
+      const order = await ordersModel.findOne({ _id: user.currentOrderId });
+      if (order) message = order.message;
+
+      const inline_keyboard = [
+        [
+          { text: "✅", callback_data: "confirmpayment_" + chat_id },
+          { text: "❌", callback_data: "cancelpayment_" + chat_id },
+        ],
+      ];
+
+      await bot.sendMessage(
+        chat_id,
+        "<b>Order successful. Moderators will verify, and UC will be credited to your account.</b>",
+        { parse_mode: "HTML" }
+      );
+
+      if (document) {
+        return await bot.sendDocument(CONSTANTS.group_id, document.file_id, {
+          caption: message,
+          parse_mode: "HTML",
+          reply_markup: { inline_keyboard },
+        });
+      }
+    }
+  });
+
   bot.on("message", async (ctx) => {
     try {
       const chat_id = ctx.from.id;
@@ -309,9 +416,9 @@ module.exports = async function startBot() {
           { telegramId: chat_id },
           { step: 0 },
           { new: true }
-        )
-        return await startCommand(ctx)
-      };
+        );
+        return await startCommand(ctx);
+      }
 
       if (ctx.text === "/lang") {
         return await bot.sendMessage(

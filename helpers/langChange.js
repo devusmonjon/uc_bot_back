@@ -1,6 +1,7 @@
 const User = require("../models/user.model");
 const CONSTANS = require("../constants");
-const bot = require("../configs/bot")
+const bot = require("../configs/bot");
+const { startCommand } = require("../commands");
 
 module.exports = async (ctx) => {
     const chat_id = ctx.from.id;
@@ -25,13 +26,14 @@ module.exports = async (ctx) => {
           );
         }
       }
-      return bot.editMessageText(
+      await bot.editMessageText(
         CONSTANS[lang].lang.change_successfully,
         {
           chat_id,
           message_id: ctx.message.message_id,
         }
       );
+      return await startCommand(ctx)
     } catch (err) {
       bot.sendMessage(
         chat_id,

@@ -17,7 +17,7 @@ const HOME_KEYBOARD = {
       {
         text: "популярность sotib olish",
         web_app: {
-          url: "https://140b-185-213-230-9.ngrok-free.app/popularity",
+          url: "https://140b-185-213-230-9.ngrok-free.app/population",
         },
       },
     ],
@@ -40,7 +40,7 @@ const HOME_KEYBOARD = {
       {
         text: "Купить популярность",
         web_app: {
-          url: "https://140b-185-213-230-9.ngrok-free.app/popularity",
+          url: "https://140b-185-213-230-9.ngrok-free.app/population",
         },
       },
     ],
