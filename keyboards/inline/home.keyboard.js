@@ -9,7 +9,7 @@ const HOME_KEYBOARD = {
       {
         text: "UC Sotib olish",
         web_app: {
-          url: "https://140b-185-213-230-9.ngrok-free.app",
+          url: "https://uc-bot-webapp.vercel.app",
         },
       },
     ],
@@ -17,7 +17,7 @@ const HOME_KEYBOARD = {
       {
         text: "популярность sotib olish",
         web_app: {
-          url: "https://140b-185-213-230-9.ngrok-free.app/population",
+          url: "https://uc-bot-webapp.vercel.app/population",
         },
       },
     ],
@@ -32,7 +32,7 @@ const HOME_KEYBOARD = {
       {
         text: "Купить UC",
         web_app: {
-          url: "https://140b-185-213-230-9.ngrok-free.app",
+          url: "https://uc-bot-webapp.vercel.app",
         },
       },
     ],
@@ -40,7 +40,7 @@ const HOME_KEYBOARD = {
       {
         text: "Купить популярность",
         web_app: {
-          url: "https://140b-185-213-230-9.ngrok-free.app/population",
+          url: "https://uc-bot-webapp.vercel.app/population",
         },
       },
     ],
