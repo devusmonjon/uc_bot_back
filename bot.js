@@ -24,6 +24,13 @@ app.use(express.json());
 app.get("/api/user/:id", async (req, res) => {
   try {
     const user = await userModel.findOne({ telegramId: req.params.id });
+    if (user.status === false) {
+      await bot.sendMessage(
+        user.telegramId,
+        user.lang == "uz" ? "Siz bloklangansiz" : "Вы заблокированы"
+      );
+      throw new Error("You are blocked");
+    }
     res.status(200).json({ user });
   } catch (error) {
     console.log(error);
@@ -54,6 +61,16 @@ app.post("/api/web_app_data", async (req, res) => {
   try {
     const { telegramId, orderDetails, pubgId, full_name } = req.body;
     const user = await userModel.findOne({ telegramId: telegramId });
+
+    if (!user) throw new Error("User not found");
+
+    if (user.status === false) {
+      await bot.sendMessage(
+        user.telegramId,
+        user.lang == "uz" ? "Siz bloklangansiz" : "Вы заблокированы"
+      );
+      throw new Error("You are blocked");
+    }
 
     let order_message = `<b>‼️ Yanggi buyurtma ‼️</b>\n\n${orderDetails.items
       .map((item) => {
@@ -119,6 +136,16 @@ app.post("/api/web_app_data/population", async (req, res) => {
   try {
     const { telegramId, orderDetails, pubgId, full_name } = req.body;
     const user = await userModel.findOne({ telegramId: telegramId });
+
+    if (!user) throw new Error("User not found");
+
+    if (user.status === false) {
+      await bot.sendMessage(
+        user.telegramId,
+        user.lang == "uz" ? "Siz bloklangansiz" : "Вы заблокированы"
+      );
+      throw new Error("You are blocked");
+    }
 
     let order_message = `<b>‼️ Yanggi buyurtma ‼️</b>\n\n${orderDetails.items
       .map((item) => {
@@ -206,6 +233,8 @@ module.exports = async function startBot() {
 
       {
         const user = await User.findOne({ telegramId: chat_id });
+
+        
         if (!user) {
           return await bot.sendMessage(
             chat_id,
@@ -222,6 +251,12 @@ module.exports = async function startBot() {
                 ],
               },
             }
+          );
+        }
+        if (user.status === false) {
+          return await bot.sendMessage(
+            user.telegramId,
+            user.lang == "uz" ? "Siz bloklangansiz" : "Вы заблокированы"
           );
         }
         ctx.user = user;
@@ -274,7 +309,7 @@ module.exports = async function startBot() {
   });
 
   bot.setMyCommands([
-    { command: "start", description: "Start the bot" },
+    { command: "start", description: "Botni qayta ishga tushirish / Перезапустить бот" },
     // { command: "find", description: "Find a job" },
     { command: "lang", description: "Tilni almashtirish / Смена языка" },
   ]);
@@ -385,10 +420,7 @@ module.exports = async function startBot() {
       const first_name = ctx.from.first_name;
       const last_name = ctx.from.last_name;
       const full_name = first_name + (last_name ? " " + last_name : "");
-      const username = ctx.from.username;
       const user = await User.findOne({ telegramId: chat_id });
-      const photo = ctx.photo;
-      const document = ctx.document;
 
       if (!user) {
         return await bot.sendMessage(
@@ -406,6 +438,13 @@ module.exports = async function startBot() {
               ],
             },
           }
+        );
+      }
+
+      if (user.status === false) {
+        return await bot.sendMessage(
+          user.telegramId,
+          user.lang == "uz" ? "Siz bloklangansiz" : "Вы заблокированы"
         );
       }
 

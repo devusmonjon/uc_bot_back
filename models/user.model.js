@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId || null,
         ref: 'Orders',
         default: null
+    },
+    status: {
+        type: Boolean,
+        default: true
     }
 },{ timestamps: true });
 
