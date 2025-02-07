@@ -15,6 +15,7 @@ const random = require("./helpers/random");
 const ordersModel = require("./models/orders.model");
 const constantsModel = require("./models/constants.model");
 const collectionModel = require("./models/collection.model");
+const blockCallback = require("./callbacks/block.callback");
 require("number-brm");
 
 const PORT = process.env.PORT || 7777;
@@ -214,7 +215,7 @@ app.listen(PORT, () => {
 
 module.exports = async function startBot() {
   const bot = require("./configs/bot");
-  const { startCommand, findCommand } = require("./commands");
+  const { startCommand } = require("./commands");
   const langChange = require("./helpers/langChange");
   const User = require("./models/user.model");
   const CONSTANS = require("./constants");
@@ -263,6 +264,10 @@ module.exports = async function startBot() {
       }
 
       const lang = ctx.user.lang || "uz";
+
+      if (data.split("_")[0] === "block") {
+        return await blockCallback(ctx, data.split("_")[1]);
+      }
 
       if (data.includes("confirmpayment_")) {
         const chat_id = data.split("_")[1];
@@ -343,6 +348,7 @@ module.exports = async function startBot() {
         [
           { text: "✅", callback_data: "confirmpayment_" + chat_id },
           { text: "❌", callback_data: "cancelpayment_" + chat_id },
+          { text: "🚫 Заблокировать", callback_data: "block_" + chat_id },
         ],
       ];
 
@@ -395,6 +401,7 @@ module.exports = async function startBot() {
         [
           { text: "✅", callback_data: "confirmpayment_" + chat_id },
           { text: "❌", callback_data: "cancelpayment_" + chat_id },
+          { text: "🚫 Заблокировать", callback_data: "block_" + chat_id },
         ],
       ];
 
