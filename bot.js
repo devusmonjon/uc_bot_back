@@ -17,7 +17,7 @@ const constantsModel = require("./models/constants.model");
 const collectionModel = require("./models/collection.model");
 require("number-brm");
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 7777;
 
 app.use(cors());
 app.use(express.json());
