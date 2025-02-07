@@ -235,7 +235,6 @@ module.exports = async function startBot() {
       {
         const user = await User.findOne({ telegramId: chat_id });
 
-        
         if (!user) {
           return await bot.sendMessage(
             chat_id,
@@ -314,7 +313,10 @@ module.exports = async function startBot() {
   });
 
   bot.setMyCommands([
-    { command: "start", description: "Botni qayta ishga tushirish / Перезапустить бот" },
+    {
+      command: "start",
+      description: "Botni qayta ishga tushirish / Перезапустить бот",
+    },
     // { command: "find", description: "Find a job" },
     { command: "lang", description: "Tilni almashtirish / Смена языка" },
   ]);
@@ -348,8 +350,8 @@ module.exports = async function startBot() {
         [
           { text: "✅", callback_data: "confirmpayment_" + chat_id },
           { text: "❌", callback_data: "cancelpayment_" + chat_id },
-          { text: "🚫 Заблокировать", callback_data: "block_" + chat_id },
         ],
+        [{ text: "🚫 Заблокировать", callback_data: "block_" + chat_id }],
       ];
 
       await bot.sendMessage(
@@ -401,8 +403,8 @@ module.exports = async function startBot() {
         [
           { text: "✅", callback_data: "confirmpayment_" + chat_id },
           { text: "❌", callback_data: "cancelpayment_" + chat_id },
-          { text: "🚫 Заблокировать", callback_data: "block_" + chat_id },
         ],
+        [{ text: "🚫 Заблокировать", callback_data: "block_" + chat_id }],
       ];
 
       await bot.sendMessage(
