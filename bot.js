@@ -30,7 +30,7 @@ app.get("/api/user/:id", async (req, res) => {
         user.telegramId,
         user.lang == "uz" ? "Siz bloklangansiz" : "Вы заблокированы"
       );
-      throw new Error("You are blocked");
+      return res.status(500).json({ error: "blocked" })
     }
     res.status(200).json({ user });
   } catch (error) {
@@ -70,7 +70,7 @@ app.post("/api/web_app_data", async (req, res) => {
         user.telegramId,
         user.lang == "uz" ? "Siz bloklangansiz" : "Вы заблокированы"
       );
-      throw new Error("You are blocked");
+      return res.status(500).json({ error: "blocked" })
     }
 
     let order_message = `<b>‼️ Yanggi buyurtma ‼️</b>\n\n${orderDetails.items
@@ -145,7 +145,7 @@ app.post("/api/web_app_data/population", async (req, res) => {
         user.telegramId,
         user.lang == "uz" ? "Siz bloklangansiz" : "Вы заблокированы"
       );
-      throw new Error("You are blocked");
+      return res.status(500).json({ error: "blocked" })
     }
 
     let order_message = `<b>‼️ Yanggi buyurtma ‼️</b>\n\n${orderDetails.items
