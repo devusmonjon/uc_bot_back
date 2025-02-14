@@ -79,7 +79,7 @@ app.post("/api/web_app_data", async (req, res) => {
       })
       .join("\n\n")}\n\n<b>Foydalanuvchi: </b>${full_name}\n<b>${
       CONSTANTS.uz.total
-    }: </b>${orderDetails.total.brm()}`;
+    }: </b>${orderDetails.total.brm()} SO'M\n\n<b>PUBG ID: ${pubgId}</b>`;
     const create_order = await ordersModel.create({
       user_id: user._id,
       message: order_message,
@@ -121,7 +121,7 @@ app.post("/api/web_app_data", async (req, res) => {
         random_card.number
       }</pre>\nKarta nomi: <pre>${random_card.name}</pre>\n\n<b>${
         CONSTANTS[user.lang].total
-      }: </b>${orderDetails.total.brm()}\n\n<b>Iltimos shu kartaga belgilangan miqdorda pulni o'tkazib botga chekni yuboring.</b>`;
+      }: </b>${orderDetails.total.brm()} SO'M\n\n<b>Iltimos shu kartaga belgilangan miqdorda pulni o'tkazib botga chekni yuboring.</b>`;
       await bot.sendMessage(telegramId, message_payment, {
         parse_mode: "HTML",
       });
@@ -154,7 +154,7 @@ app.post("/api/web_app_data/population", async (req, res) => {
       })
       .join("\n\n")}\n\n<b>Foydalanuvchi: </b>${full_name}\n<b>${
       CONSTANTS.uz.total
-    }: </b>${orderDetails.total.brm()}`;
+    }: </b>${orderDetails.total.brm()} SO'M\n\n<b>PUBG ID: ${pubgId}</b>`
     const create_order = await ordersModel.create({
       user_id: user._id,
       message: order_message,
@@ -196,7 +196,7 @@ app.post("/api/web_app_data/population", async (req, res) => {
         random_card.number
       }</pre>\nKarta nomi: <pre>${random_card.name}</pre>\n\n<b>${
         CONSTANTS[user.lang].total
-      }: </b>${orderDetails.total.brm()}\n\n<b>Iltimos shu kartaga belgilangan miqdorda pulni o'tkazib botga chekni yuboring.</b>`;
+      }: </b>${orderDetails.total.brm()} SO'M\n\n<b>Iltimos shu kartaga belgilangan miqdorda pulni o'tkazib botga chekni yuboring.</b>`;
       await bot.sendMessage(telegramId, message_payment, {
         parse_mode: "HTML",
       });
