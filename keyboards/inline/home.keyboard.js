@@ -1,3 +1,5 @@
+const SETTINGS = require("../../constants/settings");
+
 const HOME_KEYBOARD = {
   uz: [
     [
@@ -9,7 +11,7 @@ const HOME_KEYBOARD = {
       {
         text: "UC Sotib olish",
         web_app: {
-          url: "https://uc-bot-webapp.vercel.app",
+          url: SETTINGS.webapp_url,
         },
       },
     ],
@@ -17,7 +19,7 @@ const HOME_KEYBOARD = {
       {
         text: "популярность sotib olish",
         web_app: {
-          url: "https://uc-bot-webapp.vercel.app/population",
+          url: `${SETTINGS.webapp_url}/population`,
         },
       },
     ],
@@ -32,7 +34,7 @@ const HOME_KEYBOARD = {
       {
         text: "Купить UC",
         web_app: {
-          url: "https://uc-bot-webapp.vercel.app",
+          url: SETTINGS.webapp_url,
         },
       },
     ],
@@ -40,7 +42,7 @@ const HOME_KEYBOARD = {
       {
         text: "Купить популярность",
         web_app: {
-          url: "https://uc-bot-webapp.vercel.app/population",
+          url: `${SETTINGS.webapp_url}/population`,
         },
       },
     ],
