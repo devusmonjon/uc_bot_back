@@ -409,7 +409,7 @@ module.exports = async function startBot() {
 
       await bot.sendMessage(
         chat_id,
-        "<b>Order successful. Moderators will verify, and UC will be credited to your account.</b>",
+        user.lang === "uz" ? "<b>Buyurtmangiz muvaffaqiyatli bajarildi! Endi moderatorlar uni tekshirib, tasdiqlashadi. Tasdiqlangandan so‘ng, UC hisobingizga o'tkaziladi. Xaridingiz uchun rahmat!<b/>" : "<b>Ваш заказ успешно оформлен! Теперь модераторы проверят и подтвердят его. После подтверждения UC будет зачислено на ваш счёт. Благодарим за вашу покупку!</b>",
         { parse_mode: "HTML" }
       );
 
