@@ -356,7 +356,7 @@ module.exports = async function startBot() {
 
       await bot.sendMessage(
         chat_id,
-        "<b>Order successful. Moderators will verify, and UC will be credited to your account.</b>",
+        user.lang === "uz" ? "<b>Buyurtmangiz muvaffaqiyatli bajarildi! Endi moderatorlar uni tekshirib, tasdiqlashadi. Tasdiqlangandan so‘ng, популярность hisobingizga o'tkaziladi. Xaridingiz uchun rahmat!<b/>" : "<b>Поздравляем! 🎉 Ваш заказ успешно оформлен! После проверки модераторами популярность будет зачислена на ваш аккаунт. Теперь у вас есть шанс стать ещё популярнее среди друзей и подняться в рейтинге! 🔥</b>",
         { parse_mode: "HTML" }
       );
 
