@@ -1,3 +1,4 @@
+
 const backCallback = require("./callbacks/back.callback");
 const helpCallback = require("./callbacks/help.callback");
 const pricesCallback = require("./callbacks/prices.callback");
@@ -356,7 +357,7 @@ module.exports = async function startBot() {
 
       await bot.sendMessage(
         chat_id,
-        user.lang === "uz" ? "<b>Buyurtmangiz muvaffaqiyatli bajarildi! Endi moderatorlar uni tekshirib, tasdiqlashadi. Tasdiqlangandan so‘ng, популярность hisobingizga o'tkaziladi. Xaridingiz uchun rahmat!<b/>" : "<b>Поздравляем! 🎉 Ваш заказ успешно оформлен! После проверки модераторами популярность будет зачислена на ваш аккаунт. Теперь у вас есть шанс стать ещё популярнее среди друзей и подняться в рейтинге! 🔥</b>",
+        user.lang === "uz" ? "<b>Buyurtmangiz muvaffaqiyatli bajarildi! Endi moderatorlar uni tekshirib, tasdiqlashadi. Tasdiqlangandan so‘ng, популярность hisobingizga o'tkaziladi. Xaridingiz uchun rahmat!</b>" : "<b>Поздравляем! 🎉 Ваш заказ успешно оформлен! После проверки модераторами популярность будет зачислена на ваш аккаунт. Теперь у вас есть шанс стать ещё популярнее среди друзей и подняться в рейтинге! 🔥</b>",
         { parse_mode: "HTML" }
       );
 
@@ -409,7 +410,7 @@ module.exports = async function startBot() {
 
       await bot.sendMessage(
         chat_id,
-        user.lang === "uz" ? "<b>Buyurtmangiz muvaffaqiyatli bajarildi! Endi moderatorlar uni tekshirib, tasdiqlashadi. Tasdiqlangandan so‘ng, UC hisobingizga o'tkaziladi. Xaridingiz uchun rahmat!<b/>" : "<b>Ваш заказ успешно оформлен! Теперь модераторы проверят и подтвердят его. После подтверждения UC будет зачислено на ваш счёт. Благодарим за вашу покупку!</b>",
+        user.lang === "uz" ? "<b>Buyurtmangiz muvaffaqiyatli bajarildi! Endi moderatorlar uni tekshirib, tasdiqlashadi. Tasdiqlangandan so‘ng, UC hisobingizga o'tkaziladi. Xaridingiz uchun rahmat!</b>" : "<b>Ваш заказ успешно оформлен! Теперь модераторы проверят и подтвердят его. После подтверждения UC будет зачислено на ваш счёт. Благодарим за вашу покупку!</b>",
         { parse_mode: "HTML" }
       );
 
