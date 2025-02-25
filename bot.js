@@ -16,6 +16,7 @@ const random = require("./helpers/random");
 const ordersModel = require("./models/orders.model");
 const constantsModel = require("./models/constants.model");
 const collectionModel = require("./models/collection.model");
+const ucModel = require("./models/uc.model");
 const blockCallback = require("./callbacks/block.callback");
 require("number-brm");
 
@@ -45,6 +46,17 @@ app.get("/api/population", async (_, res) => {
     res
       .status(200)
       .json({ message: "Populations", data: { populations: collections } });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error, message: "Server error" });
+  }
+});
+app.get("/api/uc", async (_, res) => {
+  try {
+    const uces = await ucModel.find({});
+    res
+      .status(200)
+      .json({ message: "Uces", data: { uc: uces } });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error, message: "Server error" });
