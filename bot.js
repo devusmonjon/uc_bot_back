@@ -374,8 +374,8 @@ console.log(data)
 
       const inline_keyboard = [
         [
-          { text: "✅", callback_data: "confirmpayment_" + chat_id + is_uc ? "_uc" : "_pp" },
-          { text: "❌", callback_data: "cancelpayment_" + chat_id + is_uc ? "_uc" : "_pp" },
+          { text: "✅", callback_data: "confirmpayment_" + chat_id + (is_uc ? "_uc" : "_pp") },
+          { text: "❌", callback_data: "cancelpayment_" + chat_id + (is_uc ? "_uc" : "_pp") },
         ],
         [{ text: "🚫 Заблокировать", callback_data: "block_" + chat_id }],
       ];
@@ -435,8 +435,8 @@ console.log(data)
 
       const inline_keyboard = [
         [
-          { text: "✅", callback_data: "confirmpayment_" + chat_id + is_uc ? "_uc" : "_pp" },
-          { text: "❌", callback_data: "cancelpayment_" + chat_id + is_uc ? "_uc" : "_pp" },
+          { text: "✅", callback_data: "confirmpayment_" + chat_id + (is_uc ? "_uc" : "_pp") },
+          { text: "❌", callback_data: "cancelpayment_" + chat_id + (is_uc ? "_uc" : "_pp") },
         ],
         [{ text: "🚫 Заблокировать", callback_data: "block_" + chat_id }],
       ];
