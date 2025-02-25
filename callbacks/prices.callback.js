@@ -10,7 +10,7 @@ module.exports = async (ctx) => {
   const uces = await ucModel.find({})
 
   const prices = uces.map((uc, i) => {
-    return `💰 ${uc.name} UC - <b>${uc.price.brm()}</b> SO'M${i !== uces.length ? "\n\n" : ""}`
+    return `${i === 0 ? "\n\n" : ""}💰 ${uc.name} UC - <b>${uc.price.brm()}</b> SO'M${i !== uces.length ? "\n\n" : ""}`
   })
 
   await bot.editMessageText(`${CONSTANTS[lang].prices}${prices}`, {
