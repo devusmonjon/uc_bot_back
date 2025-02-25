@@ -280,7 +280,7 @@ module.exports = async function startBot() {
       if (data.split("_")[0] === "block") {
         return await blockCallback(ctx, data.split("_")[1]);
       }
-
+console.log(data)
       if (data.includes("confirmpayment_")) {
         const chat_id = data.split("_")[1];
         const is_uc = data.split("_")[2] === "uc" ? true : false;
