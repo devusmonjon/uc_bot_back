@@ -283,7 +283,18 @@ module.exports = async function startBot() {
 
       if (data.includes("confirmpayment_")) {
         const chat_id = data.split("_")[1];
-        await bot.sendMessage(chat_id, "buyurtma tasdiqlandi ✅");
+        const is_uc = data.split("_")[2] === "uc" ? true : false;
+        let msg = "";
+        if (is_uc) {
+          msg = `Юсишки уже зачислены на ваш игровой ID ✅
+
+Благодарим вас за доверие @aslamucservis 👮‍♀️`;
+        } else {
+          msg = `Популярность уже зачислены на ваш игровой ID 🔥
+
+Благодарим вас за доверие @aslamucservis 👮‍♀️`
+        }
+        await bot.sendMessage(chat_id, msg || "buyurtma tasdiqlandi ✅");
         return await bot.editMessageCaption(
           `${caption}\n\n<b>Tasdiqlandi ✅</b>`,
           {
@@ -359,10 +370,12 @@ module.exports = async function startBot() {
       const order = await ordersModel.findOne({ _id: user.currentOrderId });
       if (order) message = order.message;
 
+      const is_uc = message.toLowerCase().includes("pp") ? false : true
+
       const inline_keyboard = [
         [
-          { text: "✅", callback_data: "confirmpayment_" + chat_id },
-          { text: "❌", callback_data: "cancelpayment_" + chat_id },
+          { text: "✅", callback_data: "confirmpayment_" + chat_id + is_uc ? "_uc" : "_pp" },
+          { text: "❌", callback_data: "cancelpayment_" + chat_id + is_uc ? "_uc" : "_pp" },
         ],
         [{ text: "🚫 Заблокировать", callback_data: "block_" + chat_id }],
       ];
@@ -418,11 +431,12 @@ module.exports = async function startBot() {
       let message = "";
       const order = await ordersModel.findOne({ _id: user.currentOrderId });
       if (order) message = order.message;
+      const is_uc = message.toLowerCase().includes("pp") ? false : true
 
       const inline_keyboard = [
         [
-          { text: "✅", callback_data: "confirmpayment_" + chat_id },
-          { text: "❌", callback_data: "cancelpayment_" + chat_id },
+          { text: "✅", callback_data: "confirmpayment_" + chat_id + is_uc ? "_uc" : "_pp" },
+          { text: "❌", callback_data: "cancelpayment_" + chat_id + is_uc ? "_uc" : "_pp" },
         ],
         [{ text: "🚫 Заблокировать", callback_data: "block_" + chat_id }],
       ];
