@@ -11,7 +11,7 @@ module.exports = async (ctx) => {
 
   const prices = uces.map((uc, i) => {
     return `${i === 0 ? "\n\n" : ""}💰 ${uc.name} UC - <b>${uc.price.brm()}</b> SO'M${i !== uces.length ? "\n\n" : ""}`
-  })
+  }).join("")
 
   await bot.editMessageText(`${CONSTANTS[lang].prices}${prices}`, {
     message_id,
