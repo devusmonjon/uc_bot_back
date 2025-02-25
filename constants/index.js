@@ -13,7 +13,9 @@ const CONSTANS = {
 
 {{title}} avtomatik bot bo'lib, u UCni bir zumda hisobingizga 24/7 yetkazib beradi.
 
-🔐 Barcha xaridlaringiz toʻliq himoyalangan, shuningdek, har qanday toʻldirish uchun chek soʻrashingiz mumkin.`,
+🔐 Barcha xaridlaringiz toʻliq himoyalangan, shuningdek, har qanday toʻldirish uchun chek soʻrashingiz mumkin.
+
+Aslamboi'ning rasmiy kanali: @aslamboi`,
       find: "Marhamat bizning ishlar",
     },
     lang: {
@@ -29,7 +31,7 @@ const CONSTANS = {
 
 2) Biz to'lov tizimidan foydalanish uchun komissiya to'laymiz, shuning uchun narxlar biroz yuqoriroq bo'lishi mumkin
 
-3) Bot orqali 100 000 dan ortiq buyurtma berildi va 100% odamlar UCni oldilar, agar sizga biror narsa bo'lsa, {{support_username}} deb yozing.`,
+3) Bot orqali 100 000 dan ortiq buyurtma berildi va 100% odamlar UCni oldilar, agar nosozlik bo'lsa, {{support_username}}'ga yozing.`,
     reviews: `Sharhlar 🧾
 
 🖌 Sharhlar bor kanal - {{reviews_channel_url}}
@@ -50,7 +52,9 @@ const CONSTANS = {
 
 {{title}} - это автоматический бот, который доставит вам UC на ваш счет 24/7.
 
-🔐 Все ваши покупки полностью защищены, а также вы можете запросить чек на любую покупку.`,
+🔐 Все ваши покупки полностью защищены, а также вы можете запросить чек на любую покупку.
+
+Официальный канал Aslamboi: @aslamboi`,
       find: "Пожалуйста, наши работы",
     },
     lang: {
