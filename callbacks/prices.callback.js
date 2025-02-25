@@ -1,7 +1,7 @@
 const CONSTANTS = require("../constants");
 const bot = require("../configs/bot");
 const ucModel = require("../models/uc.model");
-import "number-brm"
+require("number-brm")
 
 module.exports = async (ctx) => {
   const chat_id = ctx.from.id;
