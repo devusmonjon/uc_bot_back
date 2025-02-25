@@ -163,7 +163,7 @@ app.post("/api/web_app_data/population", async (req, res) => {
 
     let order_message = `<b>‼️ Yanggi buyurtma ‼️</b>\n\n${orderDetails.items
       .map((item) => {
-        return `<b>UC ${item.product.uc.brm()} - ${item.product.price.brm()} SO'M</b>`;
+        return `<b>PP ${item.product.uc.brm()} - ${item.product.price.brm()} SO'M</b>`;
       })
       .join("\n\n")}\n\n<b>Foydalanuvchi: </b>${full_name}\n<b>${
       CONSTANTS.uz.total
@@ -366,10 +366,17 @@ module.exports = async function startBot() {
         ],
         [{ text: "🚫 Заблокировать", callback_data: "block_" + chat_id }],
       ];
+      let message_2 = ""
+      let is_pp = message.toString().includes("pp") ? true : false
+      if (is_pp) {
+        message_2 = user.lang === "uz" ? "<b>Tabriklaymiz! 🎉\nmuvaffaqiyatli yakunlandi! Keyin\nmoderator tekshiradi\nmashhurlikka erishiladi\nhisobingiz. Endi sizda bor\nyanada mashhur bo'lish imkoniyati\ndo'stlar orasida va ko'tarilish\nreyting! 🔥\n\nIshonchingiz uchun rahmat @aslamucservis 👮‍♀️</b>" : "<b>Поздравляем! 🎉\nуспешно оформлен! После\nпроверки модераторами\nпопулярность будет зачислена на\nваш аккаунт. Теперь у вас есть\nшанс стать ещё популярнее\nсреди друзей и подняться в\nрейтинге! 🔥\n\nБлагодарим вас за доверие @aslamucservis 👮‍♀️</b>"
+      } else {
+        message_2 = user.lang === "uz" ? "<b>Tabriklaymiz, buyurtmangiz qabul qilindi, ro'yxatdan o'tish holati haqida tez orada xabar beramiz 🚀\n\nIshonchingiz uchun rahmat @aslamucservis 👮‍♀️</b>" : "<b>Поздравляю ваш Заказ принят в скором времени сообщим вам о Статусе зачисления 🚀\n\nБлагодарим вас за доверие @aslamucservis 👮‍♀️</b>"
+      }
 
       await bot.sendMessage(
         chat_id,
-        user.lang === "uz" ? "<b>Buyurtmangiz muvaffaqiyatli bajarildi! Endi moderatorlar uni tekshirib, tasdiqlashadi. Tasdiqlangandan so‘ng, популярность hisobingizga o'tkaziladi. Xaridingiz uchun rahmat!</b>" : "<b>Поздравляем! 🎉 Ваш заказ успешно оформлен! После проверки модераторами популярность будет зачислена на ваш аккаунт. Теперь у вас есть шанс стать ещё популярнее среди друзей и подняться в рейтинге! 🔥</b>",
+        message_2,
         { parse_mode: "HTML" }
       );
 
