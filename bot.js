@@ -299,7 +299,9 @@ Ishonchingiz uchun rahmat @aslamucservis 👮‍♀️<b/>` : `<b>Популяр
 
 Благодарим вас за доверие @aslamucservis 👮‍♀️</b>`
         }
-        await bot.sendMessage(chat_id, msg || "buyurtma tasdiqlandi ✅");
+        await bot.sendMessage(chat_id, msg || "buyurtma tasdiqlandi ✅", {
+          parse_mode: "HTML",
+        });
         return await bot.editMessageCaption(
           `${caption}\n\n<b>Tasdiqlandi ✅</b>`,
           {
@@ -311,7 +313,7 @@ Ishonchingiz uchun rahmat @aslamucservis 👮‍♀️<b/>` : `<b>Популяр
       }
       if (data.includes("cancelpayment_")) {
         const chat_id = data.split("_")[1];
-        await bot.sendMessage(chat_id, "buyurtma bekor qilindi ❌");
+        await bot.sendMessage(chat_id, user.lang === "uz" ? "buyurtma bekor qilindi ❌" : "заказ отменен ❌", {parse_mode: "HTML"});
         return await bot.editMessageCaption(
           `${caption}\n\n<b>Bekor qilindi ❌</b>`,
           {
