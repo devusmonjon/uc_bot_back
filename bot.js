@@ -295,7 +295,7 @@ Ishonchingiz uchun rahmat @aslamucservis 👮‍♀️</b>` : `<b>Юсишки �
         } else {
           msg = user.lang === "uz" ? `<b>Mashhurlik allaqachon o'yin identifikatoringizga hisoblangan 🔥
 
-Ishonchingiz uchun rahmat @aslamucservis 👮‍♀️<b/>` : `<b>Популярность уже зачислены на ваш игровой ID 🔥
+Ishonchingiz uchun rahmat @aslamucservis 👮‍♀️</b>` : `<b>Популярность уже зачислены на ваш игровой ID 🔥
 
 Благодарим вас за доверие @aslamucservis 👮‍♀️</b>`
         }
