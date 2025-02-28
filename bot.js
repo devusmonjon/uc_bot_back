@@ -381,7 +381,7 @@ console.log(data)
       ];
       let message_2 = ""
       let is_pp = message.toLowerCase().includes("pp") ? true : false
-      if (!is_pp) {
+      if (is_pp) {
         message_2 = user.lang === "uz" ? "<b>Tabriklaymiz! 🎉\nmuvaffaqiyatli yakunlandi!\nModeratorlar tekshirgandan so'ng\nHisobinggiz mashhurlikk erishadi. Endi sizda bor\nyanada mashhur bo'lish imkoniyati\ndo'stlar orasida va ko'tarilish\nreyting! 🔥\n\nIshonchingiz uchun rahmat @aslamucservis 👮‍♀️</b>" : "<b>Поздравляем! 🎉\nуспешно оформлен! После\nпроверки модераторами\nпопулярность будет зачислена на\nваш аккаунт. Теперь у вас есть\nшанс стать ещё популярнее\nсреди друзей и подняться в\nрейтинге! 🔥\n\nБлагодарим вас за доверие @aslamucservis 👮‍♀️</b>"
       } else {
         message_2 = user.lang === "uz" ? "<b>Tabriklaymiz, buyurtmangiz qabul qilindi, ro'yxatdan o'tish holati haqida tez orada xabar beramiz 🚀\n\nIshonchingiz uchun rahmat @aslamucservis 👮‍♀️</b>" : "<b>Поздравляю ваш Заказ принят в скором времени сообщим вам о Статусе зачисления 🚀\n\nБлагодарим вас за доверие @aslamucservis 👮‍♀️</b>"
@@ -432,6 +432,11 @@ console.log(data)
       const order = await ordersModel.findOne({ _id: user.currentOrderId });
       if (order) message = order.message;
       const is_uc = message.toLowerCase().includes("pp") ? false : true
+            if (is_pp) {
+        message_2 = user.lang === "uz" ? "<b>Tabriklaymiz! 🎉\nmuvaffaqiyatli yakunlandi!\nModeratorlar tekshirgandan so'ng\nHisobinggiz mashhurlikk erishadi. Endi sizda bor\nyanada mashhur bo'lish imkoniyati\ndo'stlar orasida va ko'tarilish\nreyting! 🔥\n\nIshonchingiz uchun rahmat @aslamucservis 👮‍♀️</b>" : "<b>Поздравляем! 🎉\nуспешно оформлен! После\nпроверки модераторами\nпопулярность будет зачислена на\nваш аккаунт. Теперь у вас есть\nшанс стать ещё популярнее\nсреди друзей и подняться в\nрейтинге! 🔥\n\nБлагодарим вас за доверие @aslamucservis 👮‍♀️</b>"
+      } else {
+        message_2 = user.lang === "uz" ? "<b>Tabriklaymiz, buyurtmangiz qabul qilindi, ro'yxatdan o'tish holati haqida tez orada xabar beramiz 🚀\n\nIshonchingiz uchun rahmat @aslamucservis 👮‍♀️</b>" : "<b>Поздравляю ваш Заказ принят в скором времени сообщим вам о Статусе зачисления 🚀\n\nБлагодарим вас за доверие @aslamucservis 👮‍♀️</b>"
+      }
 
       const inline_keyboard = [
         [
@@ -443,7 +448,7 @@ console.log(data)
 
       await bot.sendMessage(
         chat_id,
-        user.lang === "uz" ? "<b>Buyurtmangiz muvaffaqiyatli bajarildi! Endi moderatorlar uni tekshirib, tasdiqlashadi. Tasdiqlangandan so‘ng, UC hisobingizga o'tkaziladi. Xaridingiz uchun rahmat!</b>" : "<b>Ваш заказ успешно оформлен! Теперь модераторы проверят и подтвердят его. После подтверждения UC будет зачислено на ваш счёт. Благодарим за вашу покупку!</b>",
+        message_2,
         { parse_mode: "HTML" }
       );
 
