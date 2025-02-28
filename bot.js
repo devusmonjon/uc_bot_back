@@ -187,7 +187,7 @@ app.post("/api/web_app_data/population", async (req, res) => {
       let message =
         orderDetails.items
           .map((item) => {
-            return `<b>${item.product.uc.brm()} PP - ${item.product.price.brm()} SO'M</b>`;
+            return `<b>UC ${item.product.uc.brm()} - ${item.product.price.brm()} SO'M</b>`;
           })
           .join("\n\n") +
         `\n\n<b>${
@@ -205,11 +205,11 @@ app.post("/api/web_app_data/population", async (req, res) => {
 
       let message_payment = `<b>${
         CONSTANTS[user.lang].payment_details
-      }</b>\n\n<b>Karta raqami: </b><pre>${
+      }</b>\n\n<b>${user.lang === "uz" ? "Karta raqami:" : "Номер карты"}  </b><pre>${
         random_card.number
-      }</pre>\nKarta nomi: <pre>${random_card.name}</pre>\n\n<b>${
+      }</pre>\n${user.lang === "uz" ? "Karta nomi:" : "Имя карты"} <pre>${random_card.name}</pre>\n\n<b>${
         CONSTANTS[user.lang].total
-      }: </b>${orderDetails.total.brm()} SO'M\n\n<b>Iltimos shu kartaga belgilangan miqdorda pulni o'tkazib botga chekni yuboring.</b>`;
+      }: </b>${orderDetails.total.brm()} SO'M\n\n<b>${user.lang === "uz" ? "Iltimos ko'rsatilgan kartaga belgilangan miqdorda pulni o'tkazib botga chekni yuboring." : "Пожалуйста, переведите указанную сумму на указанную карту и отправьте чек боту."}</b>`;
       await bot.sendMessage(telegramId, message_payment, {
         parse_mode: "HTML",
       });
