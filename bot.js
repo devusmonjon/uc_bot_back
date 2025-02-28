@@ -187,7 +187,7 @@ app.post("/api/web_app_data/population", async (req, res) => {
       let message =
         orderDetails.items
           .map((item) => {
-            return `<b>${item.product.uc.brm()} ПП - ${item.product.price.brm()} SO'M</b>`;
+            return `<b>${item.product.uc.brm()} PP - ${item.product.price.brm()} SO'M</b>`;
           })
           .join("\n\n") +
         `\n\n<b>${
