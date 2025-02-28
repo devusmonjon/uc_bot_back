@@ -431,6 +431,8 @@ console.log(data)
       const order = await ordersModel.findOne({ _id: user.currentOrderId });
       if (order) message = order.message;
 
+      const is_uc = message.toLowerCase().includes("pp") ? false : true
+
       let message_2 = ""
       let is_pp = message.toLowerCase().includes("pp") ? true : false
       if (is_pp) {
