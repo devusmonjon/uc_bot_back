@@ -243,6 +243,7 @@ module.exports = async function startBot() {
       const first_name = ctx.from.first_name;
       const last_name = ctx.from.last_name;
       const full_name = `${first_name} ${last_name ?? ""}`;
+      const user = await User.findOne({ telegramId: chat_id });
       if (data === "uz" || data === "ru") return await langChange(ctx);
 
       {
