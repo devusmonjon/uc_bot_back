@@ -130,11 +130,11 @@ app.post("/api/web_app_data", async (req, res) => {
 
       let message_payment = `<b>${
         CONSTANTS[user.lang].payment_details
-      }</b>\n\n<b>Karta raqami: </b><pre>${
+      }</b>\n\n<b>${user.lang === "uz" ? "Karta raqami:" : "Номер карты"}  </b><pre>${
         random_card.number
-      }</pre>\nKarta nomi: <pre>${random_card.name}</pre>\n\n<b>${
+      }</pre>\n${user.lang === "uz" ? "Karta nomi:" : "Имя карты"} <pre>${random_card.name}</pre>\n\n<b>${
         CONSTANTS[user.lang].total
-      }: </b>${orderDetails.total.brm()} SO'M\n\n<b>Iltimos shu kartaga belgilangan miqdorda pulni o'tkazib botga chekni yuboring.</b>`;
+      }: </b>${orderDetails.total.brm()} SO'M\n\n<b>${user.lang === "uz" ? "Iltimos ko'rsatilgan kartaga belgilangan miqdorda pulni o'tkazib botga chekni yuboring." : "Пожалуйста, переведите указанную сумму на указанную карту и отправьте чек боту."}</b>`;
       await bot.sendMessage(telegramId, message_payment, {
         parse_mode: "HTML",
       });
@@ -286,13 +286,17 @@ console.log(data)
         const is_uc = data.split("_")[2] === "uc" ? true : false;
         let msg = "";
         if (is_uc) {
-          msg = `Юсишки уже зачислены на ваш игровой ID ✅
+          msg = user.lang === "uz" ? `<b>UC allaqachon o'yin identifikatoringizga kiritilgan ✅
 
-Благодарим вас за доверие @aslamucservis 👮‍♀️`;
+Ishonchingiz uchun rahmat @aslamucservis 👮‍♀️</b>` : `<b>Юсишки уже зачислены на ваш игровой ID ✅
+
+Благодарим вас за доверие @aslamucservis 👮‍♀️</b>`;
         } else {
-          msg = `Популярность уже зачислены на ваш игровой ID 🔥
+          msg = user.lang === "uz" ? `<b>Mashhurlik allaqachon o'yin identifikatoringizga hisoblangan 🔥
 
-Благодарим вас за доверие @aslamucservis 👮‍♀️`
+Ishonchingiz uchun rahmat @aslamucservis 👮‍♀️<b/>` : `<b>Популярность уже зачислены на ваш игровой ID 🔥
+
+Благодарим вас за доверие @aslamucservis 👮‍♀️</b>`
         }
         await bot.sendMessage(chat_id, msg || "buyurtma tasdiqlandi ✅");
         return await bot.editMessageCaption(
