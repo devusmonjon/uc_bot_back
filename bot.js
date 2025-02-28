@@ -428,15 +428,22 @@ console.log(data)
 
       console.log(updatedUser.step); // Confirm step has changed
 
-      let message = "";
       const order = await ordersModel.findOne({ _id: user.currentOrderId });
       if (order) message = order.message;
-      const is_uc = message.toLowerCase().includes("pp") ? false : true
-            if (is_pp) {
+
+      let message_2 = ""
+      let is_pp = message.toLowerCase().includes("pp") ? true : false
+      if (is_pp) {
         message_2 = user.lang === "uz" ? "<b>Tabriklaymiz! 🎉\nmuvaffaqiyatli yakunlandi!\nModeratorlar tekshirgandan so'ng\nHisobinggiz mashhurlikk erishadi. Endi sizda bor\nyanada mashhur bo'lish imkoniyati\ndo'stlar orasida va ko'tarilish\nreyting! 🔥\n\nIshonchingiz uchun rahmat @aslamucservis 👮‍♀️</b>" : "<b>Поздравляем! 🎉\nуспешно оформлен! После\nпроверки модераторами\nпопулярность будет зачислена на\nваш аккаунт. Теперь у вас есть\nшанс стать ещё популярнее\nсреди друзей и подняться в\nрейтинге! 🔥\n\nБлагодарим вас за доверие @aslamucservis 👮‍♀️</b>"
       } else {
         message_2 = user.lang === "uz" ? "<b>Tabriklaymiz, buyurtmangiz qabul qilindi, ro'yxatdan o'tish holati haqida tez orada xabar beramiz 🚀\n\nIshonchingiz uchun rahmat @aslamucservis 👮‍♀️</b>" : "<b>Поздравляю ваш Заказ принят в скором времени сообщим вам о Статусе зачисления 🚀\n\nБлагодарим вас за доверие @aslamucservis 👮‍♀️</b>"
       }
+
+      await bot.sendMessage(
+        chat_id,
+        message_2,
+        { parse_mode: "HTML" }
+      );
 
       const inline_keyboard = [
         [
@@ -445,12 +452,6 @@ console.log(data)
         ],
         [{ text: "🚫 Заблокировать", callback_data: "block_" + chat_id }],
       ];
-
-      await bot.sendMessage(
-        chat_id,
-        message_2,
-        { parse_mode: "HTML" }
-      );
 
       if (document) {
         return await bot.sendDocument(CONSTANTS.group_id, document.file_id, {
