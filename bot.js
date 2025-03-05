@@ -92,7 +92,7 @@ app.post("/api/web_app_data", async (req, res) => {
       })
       .join("\n\n")}\n\n<b>Foydalanuvchi: </b>${full_name}\n<b>${
       CONSTANTS.uz.total
-    }: </b>${orderDetails.total.brm()} SO'M\n\n<b>PUBG ID: ${pubgId}</b>`;
+    }: </b>${orderDetails.total.brm()} SO'M\n\n<b>PUBG ID: <code>${pubgId}</code></b>`;
     const create_order = await ordersModel.create({
       user_id: user._id,
       message: order_message,
@@ -167,7 +167,7 @@ app.post("/api/web_app_data/population", async (req, res) => {
       })
       .join("\n\n")}\n\n<b>Foydalanuvchi: </b>${full_name}\n<b>${
       CONSTANTS.uz.total
-    }: </b>${orderDetails.total.brm()} SO'M\n\n<b>PUBG ID: ${pubgId}</b>`
+    }: </b>${orderDetails.total.brm()} SO'M\n\n<b>PUBG ID: <code>${pubgId}</code></b>`
     const create_order = await ordersModel.create({
       user_id: user._id,
       message: order_message,
